@@ -5,6 +5,7 @@ import './App.css'
 import logo from './assets/test.jpg';
 import oxxobutton from './assets/oxxobutton.png'
 import { Link } from 'react-router-dom';
+import FocusFrame from './FocusFrame';
 
 function First() {
     const [image, setImage] = useState(null);
@@ -77,6 +78,7 @@ function First() {
                         {/* Upload Box */}
                         <div>
                             <div className="border border-gray-400 rounded-md p-4 flex flex-col items-center w-120 h-90 justify-center bg-white">
+                            
                                 {image ? (
                                     <img src={image} alt="Uploaded" className="h-full object-contain" />
                                 ) : (
@@ -113,7 +115,7 @@ function First() {
                             <img
                                 src={logo}
                                 alt="Ejemplo"
-                                className="w-90 h-102 rounded-2xl "
+                                className="w-90 h-102 rounded-2xl border-2 border-black-800 shadow-lg"
                             />
                         </div>
 
