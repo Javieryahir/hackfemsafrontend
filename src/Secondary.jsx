@@ -29,7 +29,7 @@ function Secondary() {
                     <div className="w-full bg-[#d71f28] h-5"></div>
                     <div className="w-full flex justify-between items-center px-6 py-2 bg-[#f9c727]">
                         <Link to="/">
-                            <h1 className="text-2xl font-bold text-[#333] hover:underline">OXXOgrama</h1>
+                            <h1 className="text-2xl font-bold text-[#333] hover:underline color:red">OXXOgrama</h1>
                         </Link>
                         <div className="w-8 h-8 rounded-full border border-gray-400 flex items-center justify-center">
                             <img
