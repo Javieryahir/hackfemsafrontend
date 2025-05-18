@@ -31,7 +31,13 @@ function Secondary() {
                         <Link to="/">
                             <h1 className="text-2xl font-bold text-[#333] hover:underline">OXXOgrama</h1>
                         </Link>
-
+                        <div className="w-8 h-8 rounded-full border border-gray-400 flex items-center justify-center">
+                            <img
+                                src={estanteriaImg}
+                                alt="Planograma"
+                                className="  h-auto "
+                            />
+                        </div>
                         <div className="w-8 h-8 rounded-full border border-gray-400 flex items-center justify-center">
                             <span role="img" aria-label="profile">👤</span>
                         </div>
