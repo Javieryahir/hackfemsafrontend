@@ -5,18 +5,15 @@ import './App.css'
 import logo from './assets/image.png';
 import test from './assets/test.jpg';
 import oxxobutton from './assets/oxxobutton.png'
+import axios from "axios";
+
 import { Link } from 'react-router-dom';
 import FocusFrame from './FocusFrame';
 
 function First() {
     const [image, setImage] = useState(null);
 
-    const handleImageUpload = (e) => {
-        const file = e.target.files[0];
-        if (file) {
-            setImage(URL.createObjectURL(file));
-        }
-    };
+
 
 
     const preguntas = [
@@ -41,6 +38,7 @@ function First() {
     const [respuestaVisible, setRespuestaVisible] = useState(false);
     const [textoRespuesta, setTextoRespuesta] = useState("");
 
+
     const mostrarRespuesta = (respuesta) => {
         setTextoRespuesta(respuesta);
         setRespuestaVisible(true);
@@ -51,6 +49,62 @@ function First() {
         setTextoRespuesta("");
     };
 
+
+
+    const [planograma, setPlanograma] = useState(null);
+    const [anaquelReal, setAnaquelReal] = useState(null);
+
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        if (!planograma || !anaquelReal) {
+            alert("Por favor selecciona ambas imágenes.");
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append("planograma", planograma);
+        formData.append("anaquel_real", anaquelReal);
+
+        try {
+            const response = await axios.post("http://localhost:8000/comparar-anaquel/", formData, {
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                },
+            });
+
+            console.log("Respuesta:", response.data);
+
+            sessionStorage.setItem("resultado", JSON.stringify(response.data));
+            sessionStorage.setItem("anaquel_detectado", response.data.output_images.anaquel_detectado);
+
+            window.location.href = "/herramienta";
+
+        } catch (error) {
+            console.error("Error al enviar imágenes:", error);
+            alert("Hubo un error al comparar los anaqueles.");
+        }
+    };
+
+    const handleImageUpload = async (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            setImage(URL.createObjectURL(file));
+            setAnaquelReal(e.target.files[0])
+
+            try {
+                const response = await fetch(logo); // URL procesada por Vite
+                if (!response.ok) throw new Error("No se pudo cargar la imagen");
+
+                const blob = await response.blob();
+                const fileConversion = new File([blob], "test.jpg", { type: blob.type });
+                setPlanograma(fileConversion);
+            } catch (error) {
+                console.warn("⚠️ Error cargando imagen:", error);
+            }
+        }
+    };
 
     return (
         <div className="bg-[#fef9f4] min-h-screen flex flex-col items-center">
@@ -106,6 +160,13 @@ function First() {
                                     </button>
                                 </Link>
                             </div>
+
+                            <button
+                                onClick={handleSubmit}
+                                className="w-full mt-8 bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded shadow">
+                                Correr herramienta
+                            </button>
+
 
                             {/* Example Photo */}
                             <div className="text-center">
